@@ -17,10 +17,11 @@ function setDarkTheme() {
   bodyEl.classList.add(Theme.DARK);
   switchThemeEl.setAttribute('checked', '');
 }
+
 function setLightTheme() {
   localStorage.setItem('theme', Theme.LIGHT);
   switchThemeEl.removeAttribute('checked');
-  bodyEl.classList.toggle(Theme.DARK);
+  bodyEl.classList.remove(Theme.DARK);
   bodyEl.classList.add(Theme.LIGHT);
 }
 
@@ -28,7 +29,8 @@ function onPageLoadFunction() {
   if (localStorageValue === null || localStorageValue === Theme.LIGHT) {
     setLightTheme();
   } else {
-    setDarkTheme();
+    bodyEl.classList.add(localStorageValue);
+    switchThemeEl.setAttribute('checked', '');
   }
 }
 
