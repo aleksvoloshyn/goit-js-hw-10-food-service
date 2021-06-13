@@ -3,14 +3,39 @@ const Theme = {
   DARK: 'dark-theme',
 };
 
-const themeOnLoad = {};
-
 const bodyEl = document.querySelector('body');
 const switchThemeEl = document.querySelector('#theme-switch-toggle');
-console.log(switchThemeEl);
+const localStorageValue = localStorage.getItem('theme');
 
-function onCheckBoxClick() {
-  bodyEl.classList.add('dark-theme');
+onPageLoadFunction();
+
+switchThemeEl.addEventListener('change', onSwitchElClick);
+
+function setDarkTheme() {
+  localStorage.setItem('theme', Theme.DARK);
+  bodyEl.classList.remove(Theme.LIGHT);
+  bodyEl.classList.add(Theme.DARK);
+  switchThemeEl.setAttribute('checked', '');
+}
+function setLightTheme() {
+  localStorage.setItem('theme', Theme.LIGHT);
+  switchThemeEl.removeAttribute('checked');
+  bodyEl.classList.toggle(Theme.DARK);
+  bodyEl.classList.add(Theme.LIGHT);
 }
 
-switchThemeEl.addEventListener('click', onCheckBoxClick);
+function onPageLoadFunction() {
+  if (localStorageValue === null || localStorageValue === Theme.LIGHT) {
+    setLightTheme();
+  } else {
+    setDarkTheme();
+  }
+}
+
+function onSwitchElClick() {
+  if (switchThemeEl.getAttribute('checked') === null) {
+    setDarkTheme();
+  } else {
+    setLightTheme();
+  }
+}
